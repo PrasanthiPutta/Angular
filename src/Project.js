@@ -6,10 +6,15 @@ var nodeserver = require('C:/Users/prasanthi.putta/AngularCrudApp/server');
 
 router.get('/getProjects',function(req, res) {
   var query = "select * from projects";
-  nodeserver. executeQuery (res, query);
+  var projects=nodeserver.executeQuery(res, query);
+  res.send(projects);
 });
 
 router.post('/createproject',function(req , res){     
   var query = "INSERT INTO projects (projectname,technolgy,info) VALUES (res.body.ProjectName,req.body.Technology,req.body.ProjectDetails)";
-  executeQuery (res, query);
+  nodeserver.executeQuery(res, query);
 });
+
+function newFunction(res) {
+  res.send(allProducts);
+}

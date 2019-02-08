@@ -5,14 +5,16 @@
 
 var app = require('/Users/prasanthi.putta/AngularCrudApp/src/app');
 var port = process.env.PORT || 3000;
-
+let bodyParser = require('body-parser'),
+ cors = require('cors');
 const addroutes = express.Router();
     //app.get('/', function (req, res) {
 var sql = require('mssql/msnodesqlv8');
 var config = {
   connectionString: 'Driver=SQL Server;Server=IRSDSK255\\SQLEXPRESS2014;Database=EXPLORERS;Trusted_Connection=true;'
 };
-
+app.use(bodyParser.json());
+    app.use(cors());
 
 var  executeQuery = function(res, query){  
 sql.connect(config, err => {
@@ -34,7 +36,11 @@ app.route('/getprojects').get(function(req , res){
     executeQuery (res, query);
 });
 
-
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  });
 /*
 
 //POST API
@@ -67,8 +73,8 @@ var server = app.listen(port,function () {
     console.log('Server is running..');
 });
 
-
-module.exports = executeQuery;
+exports.executeQuery = executeQuery;
+module.exports = executeQuery();
 /*
 var sql = require("mssql/msnodesqlv8"); 
 //Initiallising connection string
